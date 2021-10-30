@@ -154,7 +154,7 @@ void OpenGLWindow::handleEvent(SDL_Event &event) {
 }
 
 ```
-**Note : que o m_input é atualizado a cada evento **
+**Note : que o m_input é atualizado a cada evento**
 
 
 
