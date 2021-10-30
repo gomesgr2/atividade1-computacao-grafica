@@ -18,6 +18,52 @@ Como foi feito no projeto dos asteroids, separamos os elementos de cena do jogo 
 
 ### Principais implementações 
 
+
+### Person :
+ Para criação da pessoa foi utilizado o geogebra para auxiliar na criação dos vértices :
+ 
+![2021-10-22_19-45](https://user-images.githubusercontent.com/70021084/139541289-b3b5a5f5-e32c-44e1-9831-0ee9449e1859.png)
+
+Assim na função **initializeGL** na classe Person ficou dessa forma :
+
+```
+ std::array<glm::vec2, 16> positions{
+
+      // Corpo da pessoa
+      glm::vec2{-7.0f, +24.0f}, glm::vec2{0.0f, +030.0f},
+      glm::vec2{+7.0f, +24.0f}, glm::vec2{0.0f, +10.0f},
+
+      // Cabeça da pessoa
+      glm::vec2{-10.0f, +40.0f}, glm::vec2{0.0f, +40.43f},
+      glm::vec2{+10.0f, +40.0f}, glm::vec2{0.0f, +30.0f},
+
+      // Pernas da pessoa
+      glm::vec2{-20.0f, 0.0f}, glm::vec2{0.0f, +10.0f}, glm::vec2{0.1f, +6.8f},
+      glm::vec2{+20.0f, 0.0f},
+
+      // Braços da pessoa
+      glm::vec2{-21.0f, +38.0f}, glm::vec2{-24.0f, +035.0f},
+      glm::vec2{+21.0f, +38.0f}, glm::vec2{+24.0f, +35.0f}
+
+  };
+
+  for (auto &position : positions) {
+    position /= glm::vec2{15.5f, 15.5f};
+  }
+
+  const std::array indices{// Corpo da pessoa
+                           0, 1, 3, 1, 2, 3,
+                           // Cabeça da pessoa
+                           4, 5, 7, 5, 6, 7,
+                           // Pernas da pessoa
+                           8, 9, 10, 9, 10, 11,
+
+                           // Braços da pessoa
+                           12, 13, 0, 14, 15, 2
+
+  };
+```
+
 ### gamedata.cpp
 
 Estrutura que define o estado atual do jogo
@@ -71,7 +117,6 @@ void OpenGLWindow::handleEvent(SDL_Event &event) {
 }
 
 ```
-**Note : que o m_input é atualizado a cada evento**
 
 - **Manipulação de estados na função paintUI** 
 ```
@@ -115,4 +160,16 @@ void OpenGLWindow::handleEvent(SDL_Event &event) {
   }
 ```
 Para definirmos as dificuldades do jogo mudaremos o m_balls_quant : variável que é responsável pela quantidade de bolas que serão criadas na classe Balls.
+
+- **Verificação se o usuário ganhou** 
+```
+void OpenGLWindow::checkWinCondition() {
+  // caso o tempo acabe o estado do jogo mudará para Win
+  if (m_restartWaitTimer.elapsed() > 30) {
+    m_gameData.m_state = State::Win;
+    m_restartWaitTimer.restart();
+  }
+}
+
+```
 
