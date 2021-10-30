@@ -188,7 +188,7 @@ void OpenGLWindow::checkWinCondition() {
 }
 
 ```
-### Autor
+## Autor
 
 - Gabriel Gomes de Oliveira Costa
 - Ra : 11201921471
