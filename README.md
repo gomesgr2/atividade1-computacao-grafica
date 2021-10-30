@@ -11,8 +11,8 @@
 
 Como foi feito no projeto dos asteroids, separamos os elementos de cena do jogo em classes :
   
-*Person*: classe que representa a pessoa (VAO, VBO e atributos como translação, orientação e velocidade).
+**Person**: classe que representa a pessoa (VAO, VBO e atributos como translação, orientação e velocidade).
    
-*Balls*: classe que gerencia as bolas. Como feito na classe Asteroids (classe está no jogo asteroids da semana 5), a classe Balls contém uma lista de instâncias de uma estrutura Ball, que define o VBO e proprieadades de uma bola.
+**Balls**: classe que gerencia as bolas. Como feito na classe Asteroids (classe está no jogo asteroids da semana 5), a classe Balls contém uma lista de instâncias de uma estrutura Ball, que define o VBO e proprieadades de uma bola.
 
 
