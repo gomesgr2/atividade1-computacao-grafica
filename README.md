@@ -1,4 +1,4 @@
-# Atividade 1 - Computação Gráfica : Jogo 2D
+# Atividade 1 - Computação Gráfica : Jogo 2D Fuja das bolas
 
 ### Este jogo foi feito utilizando o algoritmos do jogo de asteroids apresentado na semana 5 como base.
 
@@ -78,7 +78,40 @@ m_input :
   Máscara de bits de eventos de estado, cujo os únicos estados possíveis são para a esquerda e direita (movimentações possiveis do objeto pessoa)
 
 
+### object.vert
 
+Esse é o shader utilizado na renderização da pessoa e bolas.
+```
+#version 410
+
+layout(location = 0) in vec2 inPosition;
+
+uniform vec4 color;
+uniform float scale;
+uniform vec2 translation;
+
+out vec4 fragColor;
+
+void main() {
+  vec2 newPosition = inPosition * scale + translation;
+  gl_Position = vec4(newPosition, 0, 1);
+  fragColor = color;
+}
+
+```
+
+### object.frag 
+
+```
+#version 410
+
+in vec4 fragColor;
+
+out vec4 outColor;
+
+void main() { outColor = fragColor; }
+
+```
 
 
 
