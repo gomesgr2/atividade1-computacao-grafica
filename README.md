@@ -71,7 +71,7 @@ m_state pode ser:
   - Playing  : aplicação em modo jogo
   - GameOver : aplicação na tela de finalização do jogo com a mensagem "Perdeu" e botão para jogar novamente, neste caso a pessoa e as bolas não são exibidas.
   - Win : aplicação na tela de finalização do jogo com a mensagem "Ganhou" e botão para jogar novamente, neste caso a pessoa e as bolas não são exibidas.
-  - Init : aplicação na tela de inicialização aparecendo botão com a mensagem "Jogar"
+  - Init : aplicação na tela de inicialização aparecendo botão com a mensagem "Jogar".
   - Menu : aplicação de escolha da dificuldade do jogo com os botões : Fácil, Médio e Difícil.
 
 m_input : 
