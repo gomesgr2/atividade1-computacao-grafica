@@ -16,7 +16,9 @@ Como foi feito no projeto dos asteroids, separamos os elementos de cena do jogo 
 **Balls**: classe que gerencia as bolas. Como feito na classe Asteroids (classe está no jogo asteroids da semana 5), a classe Balls contém uma lista de instâncias de uma estrutura Ball, que define o VBO e proprieadades de uma bola.
 
 
-**main.cpp**
+### main.cpp
+
+Seguindo o que foi apresentado nas aulas anteriores, temos a **main.cpp** dessa forma
 
 ```
 #include <fmt/core.h>
@@ -43,5 +45,40 @@ int main(int argc, char **argv) {
   return 0;
 } 
 ```
+
+
+### gamedata.cpp
+
+Estrutura que define o estado atual do jogo
+```
+#ifndef GAMEDATA_HPP_
+#define GAMEDATA_HPP_
+
+#include <bitset>
+
+enum class Input { Right, Left };
+enum class State { Playing, GameOver, Win, Init, Menu };
+
+struct GameData {
+  State m_state{State::Init};
+  std::bitset<2> m_input;
+};
+
+#endif
+
+```
+m_state pode ser:  
+  - Playing  : aplicação em modo jogo
+  - GameOver : aplicação na tela de finalização do jogo com a mensagem "Perdeu" e botão para jogar novamente, neste caso a pessoa e as bolas não são exibidas.
+  - Win : aplicação na tela de finalização do jogo com a mensagem "Ganhou" e botão para jogar novamente, neste caso a pessoa e as bolas não são exibidas.
+  - Init : aplicação na tela de inicialização aparecendo botão com a mensagem "Jogar"
+  - Menu : aplicação de escolha da dificuldade do jogo com os botões : Fácil, Médio e Difícil.
+
+m_input : 
+  Máscara de bits de eventos de estado, cujo os únicos estados possíveis são para a esquerda e direita (movimentações possiveis do objeto pessoa)
+
+
+
+
 
 
