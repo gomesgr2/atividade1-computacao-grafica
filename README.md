@@ -1,4 +1,4 @@
-# Atividade 1 - Computação Gráfica : Jogo 2D Fuja das bolas
+# Atividade 1 - Computação Gráfica : Jogo 2D Escape das bolas
 
 ### Este jogo foi feito utilizando o algoritmos do jogo de asteroids apresentado na semana 5 como base.
 
