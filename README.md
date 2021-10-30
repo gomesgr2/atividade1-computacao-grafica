@@ -1,4 +1,4 @@
-# atividade1-computacao-grafica : Jogo 
+# Atividade 1 - Computação Gráfica : Jogo 2D
 
 ### Este jogo foi feito utilizando o algoritmos do jogo de asteroids apresentado na semana 5 como base.
 
