@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
                                .height = 600,
                                .showFPS = false,
                                .showFullscreenButton = false,
-                               .title = "My Game"});
+                               .title = "Escape das bolas"});
     app.run(std::move(window));
   } catch (const abcg::Exception &exception) {
     fmt::print(stderr, "{}\n", exception.what());
