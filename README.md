@@ -16,36 +16,7 @@ Como foi feito no projeto dos asteroids, separamos os elementos de cena do jogo 
 **Balls**: classe que gerencia as bolas. Como feito na classe Asteroids (classe está no jogo asteroids da semana 5), a classe Balls contém uma lista de instâncias de uma estrutura Ball, que define o VBO e proprieadades de uma bola.
 
 
-### main.cpp
-
-Seguindo o que foi apresentado nas aulas anteriores, temos a **main.cpp** dessa forma
-
-```
-#include <fmt/core.h>
-
-#include "abcg.hpp"
-#include "openglwindow.hpp"
-
-int main(int argc, char **argv) {
-  try {
-    abcg::Application app(argc, argv);
-
-    auto window{std::make_unique<OpenGLWindow>()};
-    window->setOpenGLSettings({.samples = 4});
-    window->setWindowSettings({.width = 600,
-                               .height = 600,
-                               .showFPS = false,
-                               .showFullscreenButton = false,
-                               .title = "My Game"});
-    app.run(std::move(window));
-  } catch (const abcg::Exception &exception) {
-    fmt::print(stderr, "{}\n", exception.what());
-    return -1;
-  }
-  return 0;
-} 
-```
-
+#### Principais implementações 
 
 ### gamedata.cpp
 
@@ -78,60 +49,6 @@ m_input :
   Máscara de bits de eventos de estado, cujo os únicos estados possíveis são para a esquerda e direita (movimentações possiveis do objeto pessoa)
 
 
-### openglwindow.hpp
-
-O conteúdo de openglwindow.hpp ficará assim :
-
-```
-#ifndef OPENGLWINDOW_HPP_
-#define OPENGLWINDOW_HPP_
-
-#include <imgui.h>
-
-#include <random>
-
-#include "abcg.hpp"
-#include "person.hpp"
-#include "balls.hpp"
-
-
-class OpenGLWindow : public abcg::OpenGLWindow {
- protected:
-  void handleEvent(SDL_Event& event) override;
-  void initializeGL() override;
-  void paintGL() override;
-  void paintUI() override;
-  void resizeGL(int width, int height) override;
-  void terminateGL() override;
-
- private:
-  GLuint m_starsProgram{};
-  GLuint m_objectsProgram{};
-
-  int m_viewportWidth{};
-  int m_viewportHeight{};
-  int m_balls_quant{};
-
-  GameData m_gameData;
-  Person m_person;
-  Balls m_balls;
-
-
-  abcg::ElapsedTimer m_restartWaitTimer;
-
-  ImFont* m_font{};
-
-  std::default_random_engine m_randomEngine;
-
-  void initialize();
-  void update();
-  void checkCollisions();
-  void checkWinCondition();
-};
-
-#endif
-```
-
 ### openglwindow.cpp :
 
 - **OpenGLWindow::handleEvent**
@@ -156,10 +73,46 @@ void OpenGLWindow::handleEvent(SDL_Event &event) {
 ```
 **Note : que o m_input é atualizado a cada evento**
 
-
-
-
-
-
-
+- **Manipulação de estados na função paintUI** 
+```
+// tela de finalização do jogo, mensagem final será relativa ao estado
+  if (m_gameData.m_state == State::GameOver ||
+      m_gameData.m_state == State::Win) {
+    const char *message =
+        m_gameData.m_state == State::GameOver ? "Perdeu" : "Ganhou";
+    ImGui::Text(message);
+    if (ImGui::Button("Jogar\nNovamente", ImVec2(500, 200))) {
+      m_gameData.m_state = State::Menu;
+    }
+  }
+  // telas de inicialização
+  else if (m_gameData.m_state == State::Init) {
+    if (ImGui::Button("Jogar", ImVec2(300, 80))) {
+      m_gameData.m_state = State::Menu;
+    }
+  }
+  // menu de inicialização, as dificuldades do jogo foram baseadas nas
+  // quantidades de bolas que serão criadas, para isso foi definida uma variável
+  // de nome m_balls_quant que muda de acordo com o nivel
+  else if (m_gameData.m_state == State::Menu) {
+    if (ImGui::Button("Facil", ImVec2(300, 80))) {
+      m_gameData.m_state = State::Playing;
+      m_balls_quant = 3;
+      initialize();
+    }
+    if (ImGui::Button("Médio", ImVec2(300, 80))) {
+      m_gameData.m_state = State::Playing;
+      m_balls_quant = 4;
+      initialize();
+    }
+    if (ImGui::Button("Dificil", ImVec2(300, 80))) {
+      m_gameData.m_state = State::Playing;
+      m_balls_quant = 6;
+      initialize();
+    }
+  } else {
+    ImGui::Text("Você tem 30 seg");
+  }
+```
+Para definirmos as dificuldades do jogo mudaremos o m_balls_quant, que é responsável pela quantidade de bolas que serão criadas na classe Balls.
 
