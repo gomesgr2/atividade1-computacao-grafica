@@ -18,7 +18,8 @@ Como foi feito no projeto dos asteroids, separamos os elementos de cena do jogo 
 
 **main.cpp**
 
-`#include <fmt/core.h>
+```
+#include <fmt/core.h>
 
 #include "abcg.hpp"
 #include "openglwindow.hpp"
@@ -41,6 +42,6 @@ int main(int argc, char **argv) {
   }
   return 0;
 } 
-`
+```
 
 
