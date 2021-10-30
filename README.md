@@ -78,40 +78,88 @@ m_input :
   Máscara de bits de eventos de estado, cujo os únicos estados possíveis são para a esquerda e direita (movimentações possiveis do objeto pessoa)
 
 
-### object.vert
+### openglwindow.hpp
 
-Esse é o shader utilizado na renderização da pessoa e bolas.
+O conteúdo de openglwindow.hpp ficará assim :
+
 ```
-#version 410
+#ifndef OPENGLWINDOW_HPP_
+#define OPENGLWINDOW_HPP_
 
-layout(location = 0) in vec2 inPosition;
+#include <imgui.h>
 
-uniform vec4 color;
-uniform float scale;
-uniform vec2 translation;
+#include <random>
 
-out vec4 fragColor;
+#include "abcg.hpp"
+#include "person.hpp"
+#include "balls.hpp"
 
-void main() {
-  vec2 newPosition = inPosition * scale + translation;
-  gl_Position = vec4(newPosition, 0, 1);
-  fragColor = color;
+
+class OpenGLWindow : public abcg::OpenGLWindow {
+ protected:
+  void handleEvent(SDL_Event& event) override;
+  void initializeGL() override;
+  void paintGL() override;
+  void paintUI() override;
+  void resizeGL(int width, int height) override;
+  void terminateGL() override;
+
+ private:
+  GLuint m_starsProgram{};
+  GLuint m_objectsProgram{};
+
+  int m_viewportWidth{};
+  int m_viewportHeight{};
+  int m_balls_quant{};
+
+  GameData m_gameData;
+  Person m_person;
+  Balls m_balls;
+
+
+  abcg::ElapsedTimer m_restartWaitTimer;
+
+  ImFont* m_font{};
+
+  std::default_random_engine m_randomEngine;
+
+  void initialize();
+  void update();
+  void checkCollisions();
+  void checkWinCondition();
+};
+
+#endif
+```
+
+### openglwindow.cpp :
+
+- **OpenGLWindow::handleEvent**
+Como a pessoa só poderá se mover horizontalmente, então teremos apenas os movimentos para direita e esquerda do teclado :
+```
+void OpenGLWindow::handleEvent(SDL_Event &event) {
+  // Teremos apenas os movimentos para direita e esquerda do teclado
+  if (event.type == SDL_KEYDOWN) {
+    if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a)
+      m_gameData.m_input.set(static_cast<size_t>(Input::Left));
+    if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d)
+      m_gameData.m_input.set(static_cast<size_t>(Input::Right));
+  }
+  if (event.type == SDL_KEYUP) {
+    if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a)
+      m_gameData.m_input.reset(static_cast<size_t>(Input::Left));
+    if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d)
+      m_gameData.m_input.reset(static_cast<size_t>(Input::Right));
+  }
 }
 
 ```
+**Note : que o m_input é atualizado a cada evento **
 
-### object.frag 
 
-```
-#version 410
 
-in vec4 fragColor;
 
-out vec4 outColor;
 
-void main() { outColor = fragColor; }
-
-```
 
 
 
