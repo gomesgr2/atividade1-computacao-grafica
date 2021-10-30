@@ -63,6 +63,23 @@ Assim na função **initializeGL** na classe Person ficou dessa forma :
 
   };
 ```
+Para garantir a movimentação do objeto, foi feito :
+
+```void Person::update(const GameData &gameData, float deltaTime) {
+  if (gameData.m_input[static_cast<size_t>(Input::Left)]) {
+    if ((m_translation.x - 2.0f * deltaTime) > -1) {
+      m_translation.x = m_translation.x - 2.0f * deltaTime;
+    }
+  }
+
+  if (gameData.m_input[static_cast<size_t>(Input::Right)]) {
+    if ((m_translation.x - 2.0f * deltaTime) < 1) {
+      m_translation.x = m_translation.x + 2.0f * deltaTime;
+    }
+  }
+}
+
+```
 
 ### gamedata.cpp
 
