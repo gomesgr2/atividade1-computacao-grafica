@@ -16,7 +16,7 @@ Como foi feito no projeto dos asteroids, separamos os elementos de cena do jogo 
 **Balls**: classe que gerencia as bolas. Como feito na classe Asteroids (classe está no jogo asteroids da semana 5), a classe Balls contém uma lista de instâncias de uma estrutura Ball, que define o VBO e proprieadades de uma bola.
 
 
-#### Principais implementações 
+### Principais implementações 
 
 ### gamedata.cpp
 
@@ -114,5 +114,5 @@ void OpenGLWindow::handleEvent(SDL_Event &event) {
     ImGui::Text("Você tem 30 seg");
   }
 ```
-Para definirmos as dificuldades do jogo mudaremos o m_balls_quant, que é responsável pela quantidade de bolas que serão criadas na classe Balls.
+Para definirmos as dificuldades do jogo mudaremos o m_balls_quant : variável que é responsável pela quantidade de bolas que serão criadas na classe Balls.
 
