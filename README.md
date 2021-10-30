@@ -190,6 +190,6 @@ void OpenGLWindow::checkWinCondition() {
 ```
 #### Autor
 
-Gabriel Gomes de Oliveira Costa
-Ra : 11201921471
+- Gabriel Gomes de Oliveira Costa
+- Ra : 11201921471
 
