@@ -16,7 +16,7 @@ Como foi feito no projeto dos asteroids, separamos os elementos de cena do jogo 
 
 ### Principais implementações 
 
-### gamedata.cpp
+### gamedata.cpp :
 
 Estrutura que define o estado atual do jogo
 ```
