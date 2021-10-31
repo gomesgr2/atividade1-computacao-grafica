@@ -61,6 +61,7 @@ Assim na função **initializeGL** na classe Person ficou dessa forma :
 
   };
 ```
+
 Para garantir a movimentação do objeto, foi feito :
 
 ```
@@ -79,6 +80,59 @@ void Person::update(const GameData &gameData, float deltaTime) {
 }
 
 ```
+### Balls :
+  - **Balls::initializeGL** 
+```
+void Balls::initializeGL(GLuint program, int quantity) {
+  terminateGL();
+  m_randomEngine.seed(
+      std::chrono::steady_clock::now().time_since_epoch().count());
+
+  m_program = program;
+  m_colorLoc = abcg::glGetUniformLocation(m_program, "color");
+  m_rotationLoc = abcg::glGetUniformLocation(m_program, "rotation");
+  m_scaleLoc = abcg::glGetUniformLocation(m_program, "scale");
+  m_translationLoc = abcg::glGetUniformLocation(m_program, "translation");
+
+  m_balls.clear();
+  m_balls.resize(quantity);
+
+  // iniciando as bolas com m_translation.x aleatório e um m_translation.y = -1,
+  // garantindo que as bolas sempre vão começar acima do viewport, garantindo
+  // assim a dinâmica do jogo
+  for (auto &ball : m_balls) {
+    ball = createBall();
+    ball.m_translation = {m_randomDist(m_randomEngine), -1.0f};
+  }
+}
+
+```
+Observe que a lista bolas é criada a partir da variavel quantity, o valor desta variável é definida de acordo com o nível selecionado pelo usuario. 
+
+- **Balls::update**
+
+```
+void Balls::update(float deltaTime) {
+  auto &re{m_randomEngine};
+
+  for (auto &ball : m_balls) {
+    // atualizando a translação das bolas fazendo elas transladarem sempre
+    // negativamente ao eixo y, criando o efeito de queda
+    ball.m_translation.y = ball.m_translation.y - 1.0f * deltaTime;
+
+    // caso a bola ultrapassou o viewport somamos +2 e acrescentamos a bola um
+    // m_translation.x aleatório para garantir que as bolas variem as posições
+    // de queda
+    if (ball.m_translation.y < -1.0f) {
+      ball.m_translation.x = m_randomDist(re);
+      ball.m_translation.y += 2.0f;
+    }
+  }
+}
+```
+
+Na função update a atualização da translação da bola é feita sempre negativamente ao eixo y, criando assim o efeito de queda. Caso a bola ultrapasse a viewport, ou seja, saia da tela, temos então que iremos atualizar a posição da bola somando +2 no eixo y fazendo que ela volte a aparecer na tela, além disso, é gerado um m_translation.x aleatório entre (-1, 1) para garantir que as bolas variem de posição a cada queda.
+
 
 ### gamedata.cpp
 
